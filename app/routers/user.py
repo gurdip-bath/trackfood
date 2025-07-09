@@ -15,3 +15,8 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserRead)
 def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user 
+
+@router.get("/dashboard")
+def dashboard(current_user: User = Depends(get_current_user)):
+    return {"msg": f"Welcome {current_user.email}"}
+

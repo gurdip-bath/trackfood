@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from app.schemas.user import UserCreate, UserRead
 from app.services.user import create_user
 from app.core.database import get_db
-from app.utils.auth import get_current_user
 from app.models.user import User
+from app.dependencies.supabase_auth import get_current_user
+
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import type { JSX } from 'react';
 
+
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { token } = useAuth();
   return token ? children : <Navigate to="/login" />;

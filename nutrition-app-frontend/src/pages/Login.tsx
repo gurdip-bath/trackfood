@@ -30,6 +30,7 @@ const Login = () => {
         placeholder="Email"
         className="w-full mb-2 p-2 border"
       />
+      
       <input
         type="password"
         value={password}
@@ -44,6 +45,8 @@ const Login = () => {
         Login
       </button>
     </form>
+    
+    
   );
 };
 

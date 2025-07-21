@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { supabase } from "../supabase"
+import { useAuth } from "../context/AuthContext"
 
 export default function Register() {
+  const { signUp } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -12,11 +13,11 @@ export default function Register() {
     setError("")
     setSuccess(false)
 
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      setError(error.message)
-    } else {
+    try {
+      await signUp(email, password)
       setSuccess(true)
+    } catch (err: any) {
+      setError(err.message)
     }
   }
 

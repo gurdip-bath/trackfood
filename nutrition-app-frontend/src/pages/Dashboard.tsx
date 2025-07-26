@@ -1,8 +1,22 @@
-// src/pages/Dashboard.tsx
-import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react"
+import { useAuth } from "../context/AuthContext"
+import api from "../api"
 
 const Dashboard = () => {
-  const { logout } = useAuth();
+  const { logout } = useAuth()
+
+  useEffect(() => {
+    const checkPing = async () => {
+      try {
+        const res = await api.get("/ping")
+        console.log("✅ Ping response:", res.data)
+      } catch (err: any) {
+        console.error("❌ Ping error:", err.message)
+      }
+    }
+
+    checkPing()
+  }, [])
 
   return (
     <div className="p-8">
@@ -15,7 +29,7 @@ const Dashboard = () => {
         Log out
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

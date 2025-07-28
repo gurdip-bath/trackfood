@@ -1,8 +1,6 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import type { ReactNode } from 'react'
-
-//BREAK DOWN CODE BELOW FOR DEEPR UNDERSTANDING
 
 type AuthContextType = {
   token: string | null
@@ -16,9 +14,29 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null)
 
+  // Initialize token from existing session on app load
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session?.access_token) {
+        setToken(session.access_token)
+      }
+    }
+    initializeAuth()
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setToken(session?.access_token || null)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [])
+
   const login = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    console.log("Token:", data.session?.access_token);
+    console.log("Token:", data.session?.access_token)
 
     if (error) throw new Error(error.message)
     setToken(data.session?.access_token || null)
@@ -34,9 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     console.log("SignUp Response:", data)
 
     if (error) throw new Error(error.message)
-
-    // Optional: set token *only* if email confirmation is disabled
-    // setToken(data.session?.access_token || null)
+    // Don't set token here if email confirmation is required
   }
 
   return (
@@ -51,4 +67,3 @@ export const useAuth = () => {
   if (!context) throw new Error('useAuth must be used within AuthProvider')
   return context
 }
-// 

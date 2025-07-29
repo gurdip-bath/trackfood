@@ -6,22 +6,17 @@ const Dashboard = () => {
   const { logout, token } = useAuth()
 
   useEffect(() => {
-    console.log("Dashboard token:", token?.substring(0, 50) + "...")
     
     // Set the auth token when component mounts
     if (token) {
       setAuthToken(token)
-      console.log("Auth token set in axios")
     } else {
-      console.log("No token available")
       return
     }
 
     const checkPing = async () => {
       try {
-        console.log("Making ping request...")
         const res = await api.get("/api/ping")
-        console.log("✅ Ping response:", res.data)
       } catch (err: any) {
         console.error("❌ Ping error:", err.message)
         console.error("Error response:", err.response?.data)
@@ -29,7 +24,6 @@ const Dashboard = () => {
         
         // If unauthorized, might need to re-login
         if (err.response?.status === 401) {
-          console.log("Token expired or invalid, consider logging out")
         }
       }
     }

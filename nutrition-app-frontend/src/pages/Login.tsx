@@ -13,7 +13,6 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      console.log("✅ Login successful!");
       navigate("/dashboard"); 
     } catch (err: any) {
       console.error("❌ Login failed:", err.message);

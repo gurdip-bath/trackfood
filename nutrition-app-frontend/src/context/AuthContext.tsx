@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    console.log("Token:", data.session?.access_token)
 
     if (error) throw new Error(error.message)
     setToken(data.session?.access_token || null)
@@ -49,7 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({ email, password })
-    console.log("SignUp Response:", data)
 
     if (error) throw new Error(error.message)
     // Don't set token here if email confirmation is required

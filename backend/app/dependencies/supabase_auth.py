@@ -5,7 +5,7 @@ from fastapi import Request, HTTPException
 from app.schemas.user import UserJWT
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
 # Updated JWKS URL for new signing keys

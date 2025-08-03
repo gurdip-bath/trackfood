@@ -17,3 +17,10 @@ def get_db() -> Generator:
         yield db
     finally:
         db.close()
+
+def create_tables():
+    """Create all database tables"""
+    from app.models import User, Food, Meal, FoodEntry
+    
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created successfully!")

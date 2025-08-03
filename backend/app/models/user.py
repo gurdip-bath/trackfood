@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 class User(Base):
@@ -9,3 +10,5 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True) 
     is_superuser = Column(Boolean, default=False)
+
+    meals = relationship("Meal", back_populates="user", cascade="all, delete-orphan")
